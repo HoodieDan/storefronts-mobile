@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@theme {
+    --font-aeonik: "Aeonik";
+
+    --color-white: #fff;
+    --color-black: #000;
+    --color-crayola: #b0b7bf;
+    --color-chinese-black: #121212;
+    --color-manatee: #97a1ac;
+    --color-dark-green: #002E22;
+    --color-dark-slate-gray: #355F53;
+    --color-anti-flash-white: #EFF1F3;
+    --color-columbia-blue: #C4DBD5;
+    --color-granite-gray: #5E646B;
+    --color-bright-gray: #EEEEEE;
+    --color-spanish-viridian: #008060;
+    --color-orioles-orange: #EB4B1A;
+    --color-lava: #CD1C13;
+    --color-platinum: #DFE3E6;
+    --color-feldgrau: #445B54;
+    --color-bright-gray: #E5F2EF;
+    --color-vivid-gamboge: #FD9400;
+}
