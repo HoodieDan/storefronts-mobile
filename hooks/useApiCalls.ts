@@ -6,7 +6,6 @@ export function useGetStoreData(merchantSlug: string = 'demo') {
   return useQuery({
     queryKey: ['storeInfo', merchantSlug],
     queryFn: async () => {
-      sessionStorage.clear();
       if (!merchantSlug) throw new Error('Merchant slug is required');
       const response = (await apiGet(`/account/store-website/public/${merchantSlug}/`)) as {
         status: number;

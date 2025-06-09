@@ -13,8 +13,10 @@ import { useForm, Controller } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextInputField from '../components/common/text-input';
+import RadioButton from '../components/common/radio-button';
 import H1Text from 'components/common/text-utils/h1text';
 import H6Text from 'components/common/text-utils/h6text';
+import H5Text from 'components/common/text-utils/h5text';
 
 const schema = Yup.object().shape({
   firstName: Yup.string().required('First name is required'),
@@ -23,7 +25,24 @@ const schema = Yup.object().shape({
   phoneNumber: Yup.string()
     .required('Phone Number is required')
     .matches(/^\d{11}$/, 'Must be 11 digits'),
+  shippingMethod: Yup.string().required('Please select a shipping method'),
+  deliveryLocation: Yup.string().when('shippingMethod', {
+    is: 'delivery',
+    then: (schema) => schema.required('Delivery location is required'),
+    otherwise: (schema) => schema,
+  }),
+  address: Yup.string().when('shippingMethod', {
+    is: 'delivery',
+    then: (schema) => schema.required('Address is required'),
+    otherwise: (schema) => schema,
+  }),
 });
+
+const options = [
+  { label: 'Standard', value: 'standard' },
+  { label: 'Express', value: 'express' },
+  { label: 'Next-Day', value: 'next' },
+];
 
 const ShippingForm = () => {
   const {
@@ -45,8 +64,8 @@ const ShippingForm = () => {
           <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="p-6">
             <View className="mt-4 flex-1 justify-between">
               <View className="space-y-4">
-                <H1Text className='mb-2'>Shipping Detail</H1Text>
-                <H6Text className='mb-10 text-manatee'>kindly input your information</H6Text>
+                <H1Text className="mb-2">Shipping Detail</H1Text>
+                <H6Text className="text-manatee mb-10">kindly input your information</H6Text>
                 <View className="w-full flex-row gap-4">
                   <Controller
                     control={control}
@@ -102,6 +121,64 @@ const ShippingForm = () => {
                       error={errors.phoneNumber?.message}
                       placeholder="090312345678"
                     />
+                  )}
+                />
+
+                <H5Text className="my-3">Shipping Method</H5Text>
+                <Controller
+                  control={control}
+                  name="shippingMethod"
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <View className="flex-row gap-4">
+                        <RadioButton
+                          label="Delivery"
+                          desciption="Delivered to your door, hassle free"
+                          value="delivery"
+                          selected={value === 'delivery'}
+                          onSelect={onChange}
+                          className="rounded-md"
+                        />
+                        <RadioButton
+                          label="Pickup"
+                          desciption="Pick up your order at your convenience"
+                          value="pickup"
+                          selected={value === 'pickup'}
+                          onSelect={onChange}
+                          className="rounded-md"
+                        />
+                      </View>
+                      {value === 'pickup' && (
+                        <H6Text className="mt-2 text-green-600">You selected Pickup</H6Text>
+                      )}
+                      {value === 'delivery' && (
+                        <>
+                          <Controller
+                            control={control}
+                            name="deliveryLocation"
+                            rules={{ required: 'Please select a delivery option' }}
+                            render={({
+                              field: { onChange: onDeliveryChange, value: deliveryValue },
+                            }) => (
+                              <View className="mt-4">
+                                {options.map((option, index) => (
+                                  <RadioButton
+                                    key={option.value}
+                                    label={option.label}
+                                    value={option.value}
+                                    selected={deliveryValue === option.value}
+                                    onSelect={onDeliveryChange}
+                                    showDemarcation={index !== options.length - 1}
+                                    isFirst={index === 0}
+                                    isLast={index === options.length - 1}
+                                  />
+                                ))}
+                              </View>
+                            )}
+                          />
+                        </>
+                      )}
+                    </>
                   )}
                 />
               </View>

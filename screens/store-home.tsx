@@ -1,5 +1,5 @@
 import { Text, SafeAreaView } from "react-native";
-import H1Text from "../components/text-utils/h1text";
+import H1Text from "../components/common/text-utils/h1text";
 
 function StoreHome() {
   return (

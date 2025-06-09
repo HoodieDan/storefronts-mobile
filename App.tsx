@@ -1,32 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AppContent from 'components/AppContent';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import './global.css';
-import StoreHome from './screens/store-home';
-import ShippingDetails from 'screens/shipping-details';
 
-const Stack = createNativeStackNavigator();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      retry: 0,
+      staleTime: 60 * 1000,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    },
+    mutations: {
+      retry: 0,
+    },
+  },
+});
+
 
 export default function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <StatusBar style="dark" />
-
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='ShippingDetails'>
-          <Stack.Screen
-            name="Store"
-            component={StoreHome}
-            options={{ title: 'Store', headerShown: false }}
-          />
-          <Stack.Screen
-            name="ShippingDetails"
-            component={ShippingDetails}
-            options={{ title: 'Shipping Details', headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
+      <AppContent />
+    </QueryClientProvider>
   );
 }
