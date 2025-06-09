@@ -24,4 +24,5 @@ export interface HeadingProps {
   color?: string;
   fontWeight?: FontWeight;
   style?: StyleProp<TextStyle>;
+  className?: string;
 }
