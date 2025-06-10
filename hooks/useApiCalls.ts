@@ -1,8 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiGet } from 'lib/api';
 import { StoreInfo } from 'lib/interfaces';
+import useStoreInfo from '../store/storeinfo';
 
 export function useGetStoreData(merchantSlug: string = 'demo') {
+  const updateStoreInfo = useStoreInfo((state) => state.updateStoreInfo);
+
   return useQuery({
     queryKey: ['storeInfo', merchantSlug],
     queryFn: async () => {
@@ -13,7 +16,7 @@ export function useGetStoreData(merchantSlug: string = 'demo') {
       };
 
       if (response.status === 200) {
-        // updateStoreInfo(response.data);
+        updateStoreInfo(response.data);
         console.log('Store info fetched successfully:', response.data);
         return response.data;
       } else {

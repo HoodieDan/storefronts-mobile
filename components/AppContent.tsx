@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, ActivityIndicator, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -9,7 +8,7 @@ import ShippingDetails from 'screens/shipping-details';
 const Stack = createNativeStackNavigator();
 
 const AppContent = () => {
-  const { data, isLoading, isError } = useGetStoreData();
+  const { isLoading, isError } = useGetStoreData();
 
   if (isLoading) {
     return (

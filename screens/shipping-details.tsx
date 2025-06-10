@@ -17,6 +17,10 @@ import RadioButton from '../components/common/radio-button';
 import H1Text from 'components/common/text-utils/h1text';
 import H6Text from 'components/common/text-utils/h6text';
 import H5Text from 'components/common/text-utils/h5text';
+import useOrderStore from 'store/order';
+import useStoreInfo from 'store/storeinfo';
+import { StoreInfo } from 'lib/interfaces';
+import { formatNaira } from 'utils/format-naira';
 
 const schema = Yup.object().shape({
   firstName: Yup.string().required('First name is required'),
@@ -26,7 +30,7 @@ const schema = Yup.object().shape({
     .required('Phone Number is required')
     .matches(/^\d{11}$/, 'Must be 11 digits'),
   shippingMethod: Yup.string().required('Please select a shipping method'),
-  deliveryLocation: Yup.string().when('shippingMethod', {
+  location: Yup.string().when('shippingMethod', {
     is: 'delivery',
     then: (schema) => schema.required('Delivery location is required'),
     otherwise: (schema) => schema,
@@ -38,12 +42,6 @@ const schema = Yup.object().shape({
   }),
 });
 
-const options = [
-  { label: 'Standard', value: 'standard' },
-  { label: 'Express', value: 'express' },
-  { label: 'Next-Day', value: 'next' },
-];
-
 const ShippingForm = () => {
   const {
     control,
@@ -51,8 +49,12 @@ const ShippingForm = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
+  const updateShippingDetails = useOrderStore((state) => state.updateShippingDetails);
+  const storeInfo = useStoreInfo((state) => state.storeInfo) as StoreInfo | undefined;
+
   const onSubmit = (data: any) => {
     Alert.alert('Shipping Info', JSON.stringify(data, null, 2));
+    updateShippingDetails(data);
   };
 
   return (
@@ -65,7 +67,7 @@ const ShippingForm = () => {
             <View className="mt-4 flex-1 justify-between">
               <View className="space-y-4">
                 <H1Text className="mb-2">Shipping Detail</H1Text>
-                <H6Text className="text-manatee mb-10">kindly input your information</H6Text>
+                <H6Text className="mb-10 text-manatee">kindly input your information</H6Text>
                 <View className="w-full flex-row gap-4">
                   <Controller
                     control={control}
@@ -149,31 +151,58 @@ const ShippingForm = () => {
                         />
                       </View>
                       {value === 'pickup' && (
-                        <H6Text className="mt-2 text-green-600">You selected Pickup</H6Text>
+                        <H6Text className="mt-2">
+                          <H6Text className="font-bold">Pickup at:</H6Text>{' '}
+                          {storeInfo && 'address' in storeInfo ? storeInfo.address : 'N/A'}
+                        </H6Text>
                       )}
                       {value === 'delivery' && (
                         <>
                           <Controller
                             control={control}
-                            name="deliveryLocation"
+                            name="location"
                             rules={{ required: 'Please select a delivery option' }}
                             render={({
                               field: { onChange: onDeliveryChange, value: deliveryValue },
                             }) => (
                               <View className="mt-4">
-                                {options.map((option, index) => (
-                                  <RadioButton
-                                    key={option.value}
-                                    label={option.label}
-                                    value={option.value}
-                                    selected={deliveryValue === option.value}
-                                    onSelect={onDeliveryChange}
-                                    showDemarcation={index !== options.length - 1}
-                                    isFirst={index === 0}
-                                    isLast={index === options.length - 1}
-                                  />
-                                ))}
+                                {Array.isArray(storeInfo?.shipping_prices) &&
+                                  storeInfo.shipping_prices.map(
+                                    (location: { area: string; amount: string }, index: number) => (
+                                      <RadioButton
+                                        key={location.area}
+                                        label={
+                                          <H5Text className="flex-row">
+                                            <H6Text className="font-bold">
+                                              {location.area} -{' '}
+                                            </H6Text>
+                                            {formatNaira(+location.amount)}
+                                          </H5Text>
+                                        }
+                                        value={location.area}
+                                        selected={deliveryValue === location.area}
+                                        onSelect={onDeliveryChange}
+                                        showDemarcation={true}
+                                        isFirst={index === 0}
+                                        isLast={index === storeInfo.shipping_prices.length - 1}
+                                      />
+                                    )
+                                  )}
                               </View>
+                            )}
+                          />
+                          <Controller
+                            control={control}
+                            name="address"
+                            render={({ field: { onChange, value } }) => (
+                              <TextInputField
+                                label="Delivery Address"
+                                value={value}
+                                onChangeText={onChange}
+                                error={errors.address?.message}
+                                placeholder="Enter your delivery address"
+                                className="mt-4"
+                              />
                             )}
                           />
                         </>
