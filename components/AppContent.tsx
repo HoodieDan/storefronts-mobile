@@ -28,8 +28,8 @@ const AppContent = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="ShippingDetails">
-        <Stack.Screen name="Store" component={StoreHome} options={{ headerShown: false }} />
+      <Stack.Navigator initialRouteName="StoreHome">
+        <Stack.Screen name="StoreHome" component={StoreHome} options={{ headerShown: false }} />
         <Stack.Screen
           name="ShippingDetails"
           component={ShippingDetails}

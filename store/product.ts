@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { Product } from '../lib/interfaces';
+import { Product, StoreInfo } from '../lib/interfaces';
+import useStoreInfo from './storeinfo';
 
 interface ProductState {
   activeTab: string;
@@ -13,6 +14,7 @@ interface ProductState {
   selectSortOrder: (order: 'asc' | 'desc' | 'def') => void;
   resetSort: () => void;
   filteredProducts: () => Product[];
+  syncWithStoreInfo: () => void;
 }
 
 const useProductStore = create<ProductState>((set, get) => ({
@@ -22,12 +24,11 @@ const useProductStore = create<ProductState>((set, get) => ({
   originalInventory: [],
   sortOrder: 'def',
 
-  setProducts: (products) => {
+  setProducts: (products) =>
     set({
       inventory: [...products],
       originalInventory: [...products],
-    });
-  },
+    }),
 
   toggleTab: (tab) => set({ activeTab: tab }),
 
@@ -68,6 +69,18 @@ const useProductStore = create<ProductState>((set, get) => ({
     }
 
     return filtered.filter((product) => product.display === true);
+  },
+
+  // ✅ Sync with storeInfo.products (like Pinia's watch)
+  syncWithStoreInfo: () => {
+    const storeInfo = useStoreInfo.getState().storeInfo as StoreInfo;
+    if (storeInfo && storeInfo.products) {
+      set({
+        inventory: [...storeInfo.products],
+        originalInventory: [...storeInfo.products],
+        sortOrder: 'def',
+      });
+    }
   },
 }));
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import PText from 'components/common/text-utils/ptext';
 import SmallText from 'components/common/text-utils/smalltext';
 
@@ -17,10 +17,10 @@ export const formatNaira = (price: number) => {
   const [naira, kobo] = formattedAmount.replace(currencySymbol, '').split('.');
 
   return (
-    <Text className='flex-row items-center'>
+    <View className='flex-row items-center'>
       <SmallText>{currencySymbol}</SmallText>
       <PText style={{ fontWeight: 'bold' }}>{naira}</PText>
       <SmallText>.{kobo || '00'}</SmallText>
-    </Text>
+    </View>
   );
 };

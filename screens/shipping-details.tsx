@@ -172,12 +172,12 @@ const ShippingForm = () => {
                                       <RadioButton
                                         key={location.area}
                                         label={
-                                          <H5Text className="flex-row">
+                                          <View className="flex-row items-center">
                                             <H6Text className="font-bold">
                                               {location.area} -{' '}
                                             </H6Text>
                                             {formatNaira(+location.amount)}
-                                          </H5Text>
+                                          </View>
                                         }
                                         value={location.area}
                                         selected={deliveryValue === location.area}
