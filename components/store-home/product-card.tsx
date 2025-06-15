@@ -1,32 +1,37 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { formatNaira } from '../../utils/format-naira';
 import ProductImagePlaceholder from '../common/product-image-placeholder';
 import useCartStore from '../../store/cart';
 import { Product } from 'lib/interfaces';
 
+type RootStackParamList = {
+  ProductDetail: { productId: number };
+  // add other routes here if needed
+};
 interface Props {
   product: Product;
 }
 
 const ProductCard: React.FC<Props> = ({ product }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { isProductInCart } = useCartStore();
 
   const navigateToProductDetail = () => {
-    navigation.navigate('ProductDetail' as never);
+    navigation.navigate('ProductDetail', { productId: product.id });
   };
 
   const renderStockLabel = () => {
     if (product.total_stock === 0) {
       return (
-        <View className="bg-oriolesOrange absolute right-1 top-1 z-10 rounded-sm px-1.5 py-0.5 text-white">
+        <View className="absolute right-1 top-1 z-10 rounded-sm bg-oriolesOrange px-1.5 py-0.5 text-white">
           <Text className="text-xs text-white">Out of stock</Text>
         </View>
       );
     } else if (product.total_stock <= 5) {
       return (
-        <View className="bg-vividGamboge absolute right-1 top-1 z-10 rounded-sm px-1.5 py-0.5 text-white">
+        <View className="absolute right-1 top-1 z-10 rounded-sm bg-vividGamboge px-1.5 py-0.5 text-white">
           <Text className="text-xs text-white">Low in stock</Text>
         </View>
       );
