@@ -4,6 +4,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useGetStoreData } from 'hooks/useApiCalls';
 import StoreHome from '../screens/store-home';
 import ShippingDetails from 'screens/shipping-details';
+import ProductDetail from 'screens/product-detail';
+import CartScreen from 'screens/cart-screen';
+
+const linking = {
+  prefixes: ['https://shop.leyyow.com', 'leyyow://'], // support universal & deep links
+  config: {
+    screens: {
+      ProductDetail: {
+        path: 'demo/store/product:productId',
+        parse: {
+          productId: (id: string) => Number(id),
+        },
+      },
+    },
+  },
+};
 
 const Stack = createNativeStackNavigator();
 
@@ -27,12 +43,22 @@ const AppContent = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       <Stack.Navigator initialRouteName="StoreHome">
         <Stack.Screen name="StoreHome" component={StoreHome} options={{ headerShown: false }} />
         <Stack.Screen
           name="ShippingDetails"
           component={ShippingDetails}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProductDetail"
+          component={ProductDetail}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={CartScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

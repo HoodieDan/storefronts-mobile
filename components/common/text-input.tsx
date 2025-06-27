@@ -28,7 +28,7 @@ const TextInputField = ({
     <View className={clsx('mb-4', className)}>
       {label ? <PText className="mb-1">{label}</PText> : null}
       <View
-        className="w-full flex-row items-center rounded-md border bg-antiFlashWhite px-3 py-4"
+        className="w-full flex-row items-center rounded-md border bg-antiFlashWhite px-3 py-3"
         style={{
           borderColor: error ? '#ef4444' : 'transparent',
         }}>

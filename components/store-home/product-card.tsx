@@ -32,7 +32,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     } else if (product.total_stock <= 5) {
       return (
         <View className="absolute right-1 top-1 z-10 rounded-sm bg-vividGamboge px-1.5 py-0.5 text-white">
-          <Text className="text-xs text-white">Low in stock</Text>
+          <Text className="text-xs text-white">{product.total_stock} in stock</Text>
         </View>
       );
     }
