@@ -6,8 +6,7 @@ import CartPageItem from '../components/cart-screen/cart-item-card';
 import TextInput from '../components/common/text-input';
 import AppButton from '../components/common/app-button';
 import PText from '../components/common/text-utils/ptext';
-import { formatNairaLg } from '../utils/format-naira';
-import H6Text from 'components/common/text-utils/h6text';
+import { formatNairaMd } from '../utils/format-naira';
 
 const CartPage = () => {
   const navigation = useNavigation() as any;
@@ -37,7 +36,16 @@ const CartPage = () => {
         ))}
       </ScrollView>
 
-      <View className="h-56 border-t border-gray-200 bg-white px-4 py-4">
+      <View
+        className="h-48 border-t border-gray-200 bg-white px-4 py-4"
+        style={{
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -4 },
+          shadowOpacity: 0.08,
+          shadowRadius: 8,
+          elevation: 4,
+          backgroundColor: '#fff',
+        }}>
         <View className="mb-2 flex-row items-center gap-2">
           <TextInput
             placeholder="Enter Coupon Code"
@@ -51,11 +59,11 @@ const CartPage = () => {
           />
         </View>
 
-        <View className="flex-row items-center justify-between border-b border-gray-300 pb-3">
-          <H6Text className="text-gray-500">
+        <View className="flex-row items-center justify-between border-b border-gray-300 pb-4 pt-2">
+          <PText className="text-gray-500">
             SubTotal ({totalProducts} item{totalProducts !== 1 ? 's' : ''}):
-          </H6Text>
-          <PText className="font-semibold">{formatNairaLg(totalAmount)}</PText>
+          </PText>
+          <PText className="font-semibold">{formatNairaMd(totalAmount)}</PText>
         </View>
 
         <View className="flex-row items-center justify-between pt-3">

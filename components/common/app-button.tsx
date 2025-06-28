@@ -21,7 +21,7 @@ const Button: React.FC<CustomButtonProps> = ({
   return (
     <TouchableOpacity
       className={clsx(
-        'w-full items-center justify-center py-3',
+        'px-4 items-center justify-center py-3',
         disabled && 'opacity-50',
         className
       )}

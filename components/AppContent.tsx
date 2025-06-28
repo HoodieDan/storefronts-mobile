@@ -6,6 +6,7 @@ import StoreHome from '../screens/store-home';
 import ShippingDetails from 'screens/shipping-details';
 import ProductDetail from 'screens/product-detail';
 import CartScreen from 'screens/cart-screen';
+import OrderSummary from 'screens/order-summary';
 
 const linking = {
   prefixes: ['https://shop.leyyow.com', 'leyyow://'], // support universal & deep links
@@ -56,9 +57,10 @@ const AppContent = () => {
           component={ProductDetail}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="Cart" component={CartScreen} options={{ headerShown: false }} />
         <Stack.Screen
-          name="Cart"
-          component={CartScreen}
+          name="OrderSummary"
+          component={OrderSummary}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

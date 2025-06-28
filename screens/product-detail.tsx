@@ -167,7 +167,7 @@ const ProductDetail = () => {
               {product.images && product.images.length > 0 ? (
                 <Image
                   source={{ uri: product.images[0].image }}
-                  className="h-full w-full"
+                  className="h-full w-full rounded-md"
                   resizeMode="cover"
                 />
               ) : (

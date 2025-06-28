@@ -2,7 +2,7 @@ import { Dimensions, TextStyle, StyleProp } from 'react-native';
 
 const { width: screenWidth } = Dimensions.get('window');
 
-export const responsiveFont = (baseFontSize: number, baseWidth = 375) =>
+export const responsiveFont = (baseFontSize: number, baseWidth = 345) =>
   (screenWidth / baseWidth) * baseFontSize;
 
 export type FontWeight =

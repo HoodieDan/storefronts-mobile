@@ -4,7 +4,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
+  // Alert,
   SafeAreaView,
   View,
 } from 'react-native';
@@ -14,13 +14,13 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextInputField from '../components/common/text-input';
 import RadioButton from '../components/common/radio-button';
-import H1Text from 'components/common/text-utils/h1text';
 import H6Text from 'components/common/text-utils/h6text';
-import H5Text from 'components/common/text-utils/h5text';
 import useOrderStore from 'store/order';
 import useStoreInfo from 'store/storeinfo';
 import { StoreInfo } from 'lib/interfaces';
 import { formatNaira } from 'utils/format-naira';
+import { useNavigation } from '@react-navigation/native';
+import H2Text from 'components/common/text-utils/h2text';
 
 const schema = Yup.object().shape({
   firstName: Yup.string().required('First name is required'),
@@ -43,18 +43,25 @@ const schema = Yup.object().shape({
 });
 
 const ShippingForm = () => {
+  const storeShippingDetails = useOrderStore((state) => state.shippingDetails);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: storeShippingDetails,
+  });
 
   const updateShippingDetails = useOrderStore((state) => state.updateShippingDetails);
   const storeInfo = useStoreInfo((state) => state.storeInfo) as StoreInfo | undefined;
+  const navigation = useNavigation() as any;
 
   const onSubmit = (data: any) => {
-    Alert.alert('Shipping Info', JSON.stringify(data, null, 2));
+    // Alert.alert('Shipping Info', JSON.stringify(data, null, 2));
     updateShippingDetails(data);
+    navigation.navigate('OrderSummary');
   };
 
   return (
@@ -66,7 +73,7 @@ const ShippingForm = () => {
           <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="p-6">
             <View className="mt-4 flex-1 justify-between">
               <View className="space-y-4">
-                <H1Text className="mb-2">Shipping Detail</H1Text>
+                <H2Text className="mb-2">Shipping Detail</H2Text>
                 <H6Text className="mb-10 text-manatee">kindly input your information</H6Text>
                 <View className="w-full flex-row gap-4 mb-4">
                   <Controller
@@ -128,7 +135,7 @@ const ShippingForm = () => {
                   )}
                 />
 
-                <H5Text className="my-3">Shipping Method</H5Text>
+                <H6Text className="my-3">Shipping Method</H6Text>
                 <Controller
                   control={control}
                   name="shippingMethod"

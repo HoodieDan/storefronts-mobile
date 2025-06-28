@@ -11,6 +11,7 @@ import useCartStore from '../../store/cart';
 import PText from 'components/common/text-utils/ptext';
 import AppButton from '../common/app-button';
 import H6Text from 'components/common/text-utils/h6text';
+import { formatNaira } from 'utils/format-naira';
 
 const schema = Yup.object().shape({
   quantity: Yup.number()
@@ -51,7 +52,7 @@ const CartItemCard = ({ item }) => {
     <View className="mb-5 flex-row gap-2">
       <View className="h-24 w-24 rounded-sm bg-gray-200">
         {item.images?.length ? (
-          <Image source={{ uri: item.images[0].image }} className="h-full w-full rounded-sm" />
+          <Image source={{ uri: item.images[0].image }} className="h-full w-full rounded-md" />
         ) : (
           <ProductImagePlaceholder />
         )}
@@ -69,7 +70,7 @@ const CartItemCard = ({ item }) => {
           </View>
           <View className="w-1/3 items-end">
             <PText className="font-bold">
-              ₦{(item.variant_price * item.selected_quantity).toLocaleString()}
+              {formatNaira(item.variant_price * item.selected_quantity)}
             </PText>
           </View>
         </View>

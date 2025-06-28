@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import { apiGet } from 'lib/api';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { Linking, Alert } from 'react-native';
+import { apiGet, apiPost } from 'lib/api';
 import { StoreInfo } from 'lib/interfaces';
 import useStoreInfo from '../store/storeinfo';
 
@@ -26,3 +27,33 @@ export function useGetStoreData(merchantSlug: string = 'demo') {
     },
   });
 }
+
+export const useCreateOrder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: ['createOrder'],
+    mutationFn: async (data: any) => {
+      return await apiPost('/inventory/orders/public/', data);
+    },
+    onSuccess: async (orderData: any) => {
+      queryClient.refetchQueries({ queryKey: ['storeInfo'] });
+
+      const accessCode = orderData?.data?.access_code;
+      if (accessCode) {
+        const paystackUrl = `https://checkout.paystack.com/${accessCode}`;
+        const supported = await Linking.canOpenURL(paystackUrl);
+        if (supported) {
+          Linking.openURL(paystackUrl);
+        } else {
+          Alert.alert('Error', 'Unable to open Paystack checkout link.');
+        }
+      } else {
+        Alert.alert('Error', 'No access code returned.');
+      }
+    },
+    onError: (err: any) => {
+      Alert.alert('Order Failed', err?.response?.data?.message || err?.AxiosError || 'Something went wrong.');
+    },
+  });
+};
