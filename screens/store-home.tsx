@@ -8,6 +8,8 @@ import { useEffect } from 'react';
 import { StoreInfo } from 'lib/interfaces';
 import TextInputField from '../components/common/text-input';
 import MagnifyingGlass from 'components/icons/magnifying-glass';
+import CartButton from 'components/common/cart-button';
+import useCartStore from 'store/cart';
 
 function StoreHome() {
   const { filteredProducts, syncWithStoreInfo, searchInput, updateSearch } = useProductStore();
@@ -44,12 +46,21 @@ function StoreHome() {
               )}
             </View>
             <H1Text className="my-3">Shop</H1Text>
-            <TextInputField
-              placeholder="Search for by name"
-              value={searchInput}
-              onChangeText={updateSearch}
-              icon={<MagnifyingGlass />}
-            />
+            <View className="mb-4 flex-row items-center gap-2">
+              <TextInputField
+                placeholder="Search for by name"
+                value={searchInput}
+                onChangeText={updateSearch}
+                icon={<MagnifyingGlass />}
+                className="flex-1"
+              />
+              <CartButton
+                totalProducts={useCartStore((state) =>
+                  state.cart.reduce((sum, item) => sum + item.selected_quantity, 0)
+                )}
+                style={{height: 47, width: 47}}
+              />
+            </View>
           </>
         }
       />

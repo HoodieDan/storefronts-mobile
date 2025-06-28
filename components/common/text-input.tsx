@@ -25,7 +25,7 @@ const TextInputField = ({
   const iconSize = fontSize * 1.5; // Icon size relative to input
 
   return (
-    <View className={clsx('mb-4', className)}>
+    <View className={clsx(className)}>
       {label ? <PText className="mb-1">{label}</PText> : null}
       <View
         className="w-full flex-row items-center rounded-md border bg-antiFlashWhite px-3 py-3"

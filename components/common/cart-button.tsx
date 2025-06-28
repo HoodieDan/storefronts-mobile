@@ -1,12 +1,15 @@
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CartIcon from '../icons/cart-icon';
+import clsx from 'clsx';
 
 interface CartButtonProps {
   totalProducts: number;
+  className?: string;
+  style?: any;
 }
 
-const CartButton = ({ totalProducts }: CartButtonProps) => {
+const CartButton = ({ totalProducts, className = '', style }: CartButtonProps) => {
   const navigation = useNavigation() as any;
 
   const navigateToCart = () => {
@@ -16,7 +19,11 @@ const CartButton = ({ totalProducts }: CartButtonProps) => {
   return (
     <TouchableOpacity
       onPress={navigateToCart}
-      className="relative h-10 w-10 items-center justify-center rounded-sm bg-antiFlashWhite">
+      style={style}
+      className={clsx(
+        'relative items-center justify-center rounded-sm bg-antiFlashWhite',
+        className
+      )}>
       <CartIcon />
 
       {totalProducts > 0 && (

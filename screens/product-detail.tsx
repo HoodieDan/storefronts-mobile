@@ -216,6 +216,7 @@ const ProductDetail = () => {
             totalProducts={useCartStore((state) =>
               state.cart.reduce((sum, item) => sum + item.selected_quantity, 0)
             )}
+            style={{ height: 47, width: 47 }}
           />
         </View>
       </View>

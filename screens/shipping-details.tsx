@@ -68,7 +68,7 @@ const ShippingForm = () => {
               <View className="space-y-4">
                 <H1Text className="mb-2">Shipping Detail</H1Text>
                 <H6Text className="mb-10 text-manatee">kindly input your information</H6Text>
-                <View className="w-full flex-row gap-4">
+                <View className="w-full flex-row gap-4 mb-4">
                   <Controller
                     control={control}
                     name="firstName"
@@ -108,6 +108,7 @@ const ShippingForm = () => {
                       onChangeText={onChange}
                       error={errors.email?.message}
                       placeholder="example@gmail.com"
+                      className="mb-4"
                     />
                   )}
                 />
@@ -122,6 +123,7 @@ const ShippingForm = () => {
                       keyboardType="numeric"
                       error={errors.phoneNumber?.message}
                       placeholder="090312345678"
+                      className="mb-4"
                     />
                   )}
                 />
