@@ -3,7 +3,7 @@ import useProductStore from 'store/product';
 import useCartStore from 'store/cart';
 import ProductImagePlaceholder from 'components/common/product-image-placeholder';
 import { Product, Sku } from 'lib/interfaces';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import ProductVariantForm from '../components/product-detail/product-variant-form';
 import ProductInfo from '../components/product-detail/product-info';
 import type { FlatList as FlatListType } from 'react-native';
@@ -13,21 +13,14 @@ import CartButton from 'components/common/cart-button';
 const ProductDetail = () => {
   const { filteredProducts } = useProductStore();
   const { isInStock, addToCart } = useCartStore();
-  const flatListRef = useRef<FlatListType>(null);
+  const flatListRef = useRef<FlatListType<Product>>(null);
 
   const route = useRoute();
   const { productId } = route.params as { productId: number };
 
-  useEffect(() => {
-    if (productId && filteredProducts().length > 0) {
-      const index = filteredProducts().findIndex((product) => product.id === productId);
-      if (index !== -1 && flatListRef.current) {
-        setTimeout(() => {
-          flatListRef.current?.scrollToIndex({ index, animated: true });
-        }, 300); // slight delay ensures FlatList is mounted
-      }
-    }
-  }, [productId, filteredProducts]);
+  // Ensure products is always an array
+  const products = filteredProducts() ?? [];
+  const initialIndexRef = useRef(products.findIndex((p) => p.id === productId));
 
   const [formState, setFormState] = useState<
     Record<
@@ -155,16 +148,46 @@ const ProductDetail = () => {
     }
   };
 
+  // Define getItemLayout using fixed heights
+  const getItemLayout = (
+    data: ArrayLike<Product> | null | undefined,
+    index: number
+  ): { length: number; offset: number; index: number } => {
+    let offset = 0;
+    for (let i = 0; i < index; i++) {
+      const item = data?.[i];
+      offset +=
+        item && typeof item.variants === 'string' && item.variants.trim() === '' ? 570 : 650;
+    }
+    const item = data?.[index];
+    const length =
+      item && typeof item.variants === 'string' && item.variants.trim() === '' ? 570 : 650;
+    return { length, offset, index };
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white p-4">
       <FlatList
         ref={flatListRef}
-        data={filteredProducts()}
+        data={products}
         keyExtractor={(product) => product.id.toString()}
+        initialScrollIndex={initialIndexRef.current}
+        getItemLayout={getItemLayout}
+        onScrollToIndexFailed={({ index }) => {
+          setTimeout(() => {
+            flatListRef.current?.scrollToIndex({ index, animated: false });
+          }, 500);
+        }}
         renderItem={({ item: product }) => (
-          <View className="p-4" key={product.id}>
+          <View
+            className="p-4"
+            style={{
+              height:
+                typeof product.variants === 'string' && product.variants.trim() === '' ? 570 : 650,
+            }}
+            key={product.id}>
             <View className="h-96">
-              {product.images && product.images.length > 0 ? (
+              {product.images?.length ? (
                 <Image
                   source={{ uri: product.images[0].image }}
                   className="h-full w-full rounded-md"
@@ -175,6 +198,7 @@ const ProductDetail = () => {
               )}
             </View>
 
+            {/* Product Info and Variant Form */}
             <ProductInfo
               filteredProduct={product}
               price={price(product)}

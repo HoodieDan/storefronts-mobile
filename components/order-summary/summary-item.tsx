@@ -18,13 +18,15 @@ const SummaryItem = ({ item, className = '' }: SummaryItemProps) => {
 
   return (
     <View className={clsx('mb-2 flex-row gap-2', className)}>
-      <View className="h-16 w-16 overflow-hidden rounded-md bg-graniteGray">
+      <View className="h-16 w-16 overflow-hidden rounded-md">
         {item.images.length > 0 ? (
           <Image
             source={{ uri: item.images[0].image }}
-            className="h-full w-full"
+            className="h-full w-full bg-graniteGray"
             resizeMode="cover"
-            onError={() => console.warn('Image failed to load summary item image:', item.images[0].image)}
+            onError={() =>
+              console.warn('Image failed to load summary item image:', item.images[0].image)
+            }
           />
         ) : (
           <ProductImagePlaceholder />

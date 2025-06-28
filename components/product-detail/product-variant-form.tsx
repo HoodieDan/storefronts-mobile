@@ -53,16 +53,11 @@ const VariantForm = ({
   return (
     <View className="w-full py-4">
       <View className="flex w-full flex-row flex-wrap gap-2">
-        {productVariants.map((variant, index) => {
-          // const fieldName = `variant${index + 1}`;
+        {productVariants.slice(0, 2).map((variant, index) => {
           const widthClass =
             productVariants.length === 1
               ? 'w-full'
-              : productVariants.length === 2
-                ? 'w-[48%]'
-                : index < 2
-                  ? 'w-[48%]'
-                  : 'w-full';
+              : 'w-[48%]';
 
           return (
             <View key={index} className={`flex flex-col gap-1 ${widthClass}`}>

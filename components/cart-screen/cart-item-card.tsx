@@ -50,13 +50,15 @@ const CartItemCard = ({ item }) => {
 
   return (
     <View className="mb-5 flex-row gap-2">
-      <View className="h-24 w-24 overflow-hidden rounded-md bg-graniteGray">
+      <View className="h-24 w-24 overflow-hidden rounded-md">
         {item.images?.length ? (
           <Image
             source={{ uri: item.images[0].image }}
-            className="h-full w-full rounded-md"
+            className="h-full w-full rounded-md bg-graniteGray"
             resizeMode="cover"
-            onError={() => console.warn('Image failed to load cartItem card:', item.images[0].image)}
+            onError={() =>
+              console.warn('Image failed to load cartItem card:', item.images[0].image)
+            }
           />
         ) : (
           <ProductImagePlaceholder />
