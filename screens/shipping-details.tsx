@@ -21,6 +21,7 @@ import { StoreInfo } from 'lib/interfaces';
 import { formatNaira } from 'utils/format-naira';
 import { useNavigation } from '@react-navigation/native';
 import H2Text from 'components/common/text-utils/h2text';
+import PText from 'components/common/text-utils/ptext';
 
 const schema = Yup.object().shape({
   firstName: Yup.string().required('First name is required'),
@@ -144,7 +145,7 @@ const ShippingForm = () => {
                       <View className="flex-row gap-4">
                         <RadioButton
                           label="Delivery"
-                          desciption="Delivered to your door, hassle free"
+                          description="Delivered to your door, hassle free"
                           value="delivery"
                           selected={value === 'delivery'}
                           onSelect={onChange}
@@ -152,7 +153,7 @@ const ShippingForm = () => {
                         />
                         <RadioButton
                           label="Pickup"
-                          desciption="Pick up your order at your convenience"
+                          description="Pick up your order at your convenience"
                           value="pickup"
                           selected={value === 'pickup'}
                           onSelect={onChange}
@@ -160,10 +161,10 @@ const ShippingForm = () => {
                         />
                       </View>
                       {value === 'pickup' && (
-                        <H6Text className="mt-2">
-                          <H6Text className="font-bold">Pickup at:</H6Text>{' '}
+                        <PText className="mt-2">
+                          <PText className="font-bold">Pickup at:</PText>{' '}
                           {storeInfo && 'address' in storeInfo ? storeInfo.address : 'N/A'}
-                        </H6Text>
+                        </PText>
                       )}
                       {value === 'delivery' && (
                         <>
@@ -182,9 +183,9 @@ const ShippingForm = () => {
                                         key={location.area}
                                         label={
                                           <View className="flex-row items-center">
-                                            <H6Text className="font-bold">
+                                            <PText className="font-bold">
                                               {location.area} -{' '}
-                                            </H6Text>
+                                            </PText>
                                             {formatNaira(+location.amount)}
                                           </View>
                                         }

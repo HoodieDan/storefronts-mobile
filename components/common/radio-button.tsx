@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import { View, TouchableOpacity } from 'react-native';
-import H6Text from './text-utils/h6text';
+import { View, TouchableOpacity, Text } from 'react-native';
 import PText from './text-utils/ptext';
 import CheckCircle from 'components/icons/check-circle';
 import type { ReactNode } from 'react';
@@ -10,7 +9,7 @@ interface RadioButtonProps {
   value: string;
   selected: boolean;
   onSelect: (value: string) => void;
-  desciption?: string;
+  description?: string;
   className?: string;
   showDemarcation?: boolean;
   isFirst?: boolean;
@@ -22,7 +21,7 @@ const RadioButton = ({
   value,
   selected,
   onSelect,
-  desciption = '',
+  description = '',
   className = '',
   showDemarcation = false,
   isFirst = false,
@@ -45,10 +44,10 @@ const RadioButton = ({
       <View
         className={clsx(
           'w-full flex-row items-center justify-between',
-          desciption === '' && 'px-2 py-2'
+          description === '' && 'px-2 py-2'
         )}>
         {/* 🔥 Accepts string or JSX for label */}
-        <H6Text className="font-bold">{typeof label === 'string' ? label : label}</H6Text>
+        <PText className="font-bold">{typeof label === 'string' ? label : label}</PText>
 
         <View className="h-5 w-5 items-center justify-center rounded-full">
           {!selected && <View className="h-full w-full rounded-full bg-crayola" />}
@@ -56,9 +55,9 @@ const RadioButton = ({
         </View>
       </View>
 
-      {desciption !== '' && (
+      {description !== '' && (
         <View className="mt-2">
-          <PText className="text-manatee">{desciption}</PText>
+          <Text className="text-manatee">{description}</Text>
         </View>
       )}
     </TouchableOpacity>

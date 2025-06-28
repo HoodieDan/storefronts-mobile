@@ -36,14 +36,14 @@ const SummaryTotal = ({
       </View>
 
       {/* Shipping or Pickup */}
-      {shippingDetails.shippingMethod === 'Delivery' ? (
+      {shippingDetails.shippingMethod === 'delivery' ? (
         <View className="flex-row justify-between border-b border-platinum pb-3">
-          <H6Text className="text-granite-gray">Shipping ({shippingDetails.location}):</H6Text>
+          <H6Text className="text-graniteGray">Shipping ({shippingDetails.location}):</H6Text>
           <PText>{formatNairaMd(deliveryFee)}</PText>
         </View>
       ) : (
         <View className="flex-row justify-between border-b border-platinum pb-3 mb-3">
-          <H6Text className="text-granite-gray">Pickup</H6Text>
+          <H6Text className="text-graniteGray">Pickup</H6Text>
           <PText>{formatNairaMd(0)}</PText>
         </View>
       )}

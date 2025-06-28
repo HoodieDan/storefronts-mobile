@@ -23,7 +23,7 @@ const OrderSummaryScreen = () => {
   const { mutate: createOrder, isPending } = useCreateOrder();
 
   const totalAmount = useMemo(() => {
-    return shippingDetails.shippingMethod === 'Delivery' ? deliveryFee() + cartTotal() : cartTotal();
+    return shippingDetails.shippingMethod === 'delivery' ? deliveryFee() + cartTotal() : cartTotal();
   }, [deliveryFee, cartTotal, shippingDetails.shippingMethod]);
 
   const totalProducts = useMemo(

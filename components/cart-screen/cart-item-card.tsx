@@ -50,9 +50,14 @@ const CartItemCard = ({ item }) => {
 
   return (
     <View className="mb-5 flex-row gap-2">
-      <View className="h-24 w-24 rounded-sm bg-gray-200">
+      <View className="h-24 w-24 overflow-hidden rounded-md bg-graniteGray">
         {item.images?.length ? (
-          <Image source={{ uri: item.images[0].image }} className="h-full w-full rounded-md" />
+          <Image
+            source={{ uri: item.images[0].image }}
+            className="h-full w-full rounded-md"
+            resizeMode="cover"
+            onError={() => console.warn('Image failed to load cartItem card:', item.images[0].image)}
+          />
         ) : (
           <ProductImagePlaceholder />
         )}
@@ -79,7 +84,7 @@ const CartItemCard = ({ item }) => {
           <View className="flex-row items-center gap-2">
             <TouchableOpacity
               onPress={() => decreaseSelectionQuantity(item)}
-              className="h-6 w-6 items-center justify-center rounded-sm bg-gray-300">
+              className="h-6 w-6 items-center justify-center rounded-sm bg-graniteGray/50">
               <Ionicons name="remove-outline" size={16} color="#000" />
             </TouchableOpacity>
 
@@ -91,7 +96,7 @@ const CartItemCard = ({ item }) => {
 
             <TouchableOpacity
               onPress={() => increaseSelectionQuantity(item)}
-              className="h-6 w-6 items-center justify-center rounded-sm bg-gray-300">
+              className="h-6 w-6 items-center justify-center rounded-sm bg-graniteGray/50">
               <Ionicons name="add-outline" size={16} color="#000" />
             </TouchableOpacity>
           </View>
@@ -131,7 +136,7 @@ const CartItemCard = ({ item }) => {
             <View className="mt-4 w-full flex-row justify-end gap-2">
               <AppButton
                 onPress={() => setShowQuantityModal(false)}
-                className="flex-1 rounded-md bg-gray-200 px-4 py-2"
+                className="flex-1 rounded-md bg-antiFlashWhite px-4 py-2"
                 buttonText="Cancel"
                 textClass="text-black"
               />
@@ -150,12 +155,14 @@ const CartItemCard = ({ item }) => {
         <View className="flex-1 items-center justify-center bg-black/50">
           <View className="w-10/12 rounded-lg bg-white p-4">
             <H6Text className="mb-4 text-lg font-semibold">Confirm Removal</H6Text>
-            <PText className='mb-2'>Are you sure you want to remove this item from your cart?</PText>
+            <PText className="mb-2">
+              Are you sure you want to remove this item from your cart?
+            </PText>
 
             <View className="mt-4 w-full flex-row justify-end gap-2">
               <AppButton
                 onPress={() => setShowDeleteModal(false)}
-                className="flex-1 rounded-md bg-gray-200 px-4 py-2"
+                className="flex-1 rounded-md bg-antiFlashWhite px-4 py-2"
                 buttonText="Cancel"
                 textClass="text-black"
               />

@@ -49,7 +49,7 @@ const CartPage = () => {
         <View className="mb-2 flex-row items-center gap-2">
           <TextInput
             placeholder="Enter Coupon Code"
-            className="h-12 flex-1 rounded-md bg-gray-100 text-gray-600"
+            className="h-12 flex-1 rounded-md bg-antiFlashWhite text-gray-600"
           />
           <AppButton
             className="h-12 w-24 rounded-md bg-black"
@@ -69,7 +69,7 @@ const CartPage = () => {
         <View className="flex-row items-center justify-between pt-3">
           <AppButton
             onPress={() => navigation.navigate('StoreHome')}
-            className="w-[35%] rounded-sm bg-gray-100 py-4"
+            className="w-[35%] rounded-sm bg-antiFlashWhite py-4"
             textClass="text-black"
             buttonText="Back To Shop"
           />

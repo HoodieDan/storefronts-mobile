@@ -1,10 +1,11 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { formatNaira } from '../../utils/format-naira';
+import { formatNairatoK } from '../../utils/format-naira';
 import ProductImagePlaceholder from '../common/product-image-placeholder';
 import useCartStore from '../../store/cart';
 import { Product } from 'lib/interfaces';
+import SmallText from 'components/common/text-utils/smalltext';
 
 type RootStackParamList = {
   ProductDetail: { productId: number };
@@ -60,7 +61,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       {product.images.length > 0 ? (
         <Image
           source={{ uri: product.images[0].image }}
-          className="bg-granite-gray h-full w-full rounded-sm object-cover"
+          className="h-full w-full rounded-sm bg-graniteGray object-cover"
         />
       ) : (
         <ProductImagePlaceholder />
@@ -70,9 +71,10 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       {renderCartIcon()}
 
       {/* Price */}
-      <View className="z-5 absolute bottom-2 left-0 right-0 h-6 px-1">
-        <View className="h-full w-full items-center justify-center rounded-sm bg-white py-0.5">
-          {formatNaira(product.price)}
+      <View className="z-5 absolute bottom-1 left-0 right-0 h-6 px-1">
+        <View className="h-full w-full flex-row items-center justify-center rounded-sm bg-white py-0.5">
+          {product.variants !== '' && <SmallText className="me-1">from</SmallText>}
+          {formatNairatoK(product.price)}
         </View>
       </View>
     </TouchableOpacity>
