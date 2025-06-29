@@ -10,6 +10,7 @@ import TextInputField from '../components/common/text-input';
 import MagnifyingGlass from 'components/icons/magnifying-glass';
 import CartButton from 'components/common/cart-button';
 import useCartStore from 'store/cart';
+import SortButton from 'components/store-home/sort-button';
 
 function StoreHome() {
   const { filteredProducts, syncWithStoreInfo, searchInput, updateSearch } = useProductStore();
@@ -54,11 +55,12 @@ function StoreHome() {
                 icon={<MagnifyingGlass />}
                 className="flex-1"
               />
+              <SortButton style={{ height: 47, width: 47 }} />
               <CartButton
                 totalProducts={useCartStore((state) =>
                   state.cart.reduce((sum, item) => sum + item.selected_quantity, 0)
                 )}
-                style={{height: 47, width: 47}}
+                style={{ height: 47, width: 47 }}
               />
             </View>
           </>

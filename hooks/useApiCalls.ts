@@ -18,7 +18,7 @@ export function useGetStoreData(merchantSlug: string = 'demo') {
 
       if (response.status === 200) {
         updateStoreInfo(response.data);
-        console.log('Store info fetched successfully:', JSON.stringify(response.data, null, 2));
+        // console.log('Store info fetched successfully:', JSON.stringify(response.data, null, 2));
         return response.data;
       } else {
         console.error('Fetch store info failed.');

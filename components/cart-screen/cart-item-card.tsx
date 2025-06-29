@@ -110,7 +110,7 @@ const CartItemCard = ({ item }) => {
       </View>
 
       {/* Quantity Modal */}
-      <Modal visible={showQuantityModal} transparent animationType="slide">
+      <Modal visible={showQuantityModal} transparent animationType="fade">
         <View className="flex-1 items-center justify-center bg-black/50">
           <View className="w-11/12 rounded-lg bg-white p-4">
             <H6Text className="mb-3 text-lg font-semibold">Enter Quantity</H6Text>
