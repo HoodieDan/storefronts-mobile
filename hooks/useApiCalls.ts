@@ -1,8 +1,9 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { Linking, Alert } from 'react-native';
+import { Linking } from 'react-native';
 import { apiGet, apiPost } from 'lib/api';
 import { StoreInfo } from 'lib/interfaces';
 import useStoreInfo from '../store/storeinfo';
+import { Toast } from 'toastify-react-native';
 
 export function useGetStoreData(merchantSlug: string = 'demo') {
   const updateStoreInfo = useStoreInfo((state) => state.updateStoreInfo);
@@ -46,14 +47,24 @@ export const useCreateOrder = () => {
         if (supported) {
           Linking.openURL(paystackUrl);
         } else {
-          Alert.alert('Error', 'Unable to open Paystack checkout link.');
+          Toast.show({
+            type: 'error',
+            text1: 'Unable to open Paystack checkout link.',
+          });
         }
       } else {
-        Alert.alert('Error', 'No access code returned.');
+        Toast.show({
+          type: 'error',
+          text1: 'No Access code returned.',
+        });
       }
     },
     onError: (err: any) => {
-      Alert.alert('Order Failed', err?.response?.data?.message || err?.AxiosError || 'Something went wrong.');
+      Toast.show({
+        type: 'error',
+        text1: err?.response?.data?.message || err?.AxiosError || 'Something went wrong.',
+        position: 'top',
+      });
     },
   });
 };

@@ -9,6 +9,7 @@ import ProductInfo from '../components/product-detail/product-info';
 import type { FlatList as FlatListType } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import CartButton from 'components/common/cart-button';
+import { Toast } from 'toastify-react-native';
 
 const ProductDetail = () => {
   const { filteredProducts } = useProductStore();
@@ -141,10 +142,16 @@ const ProductDetail = () => {
       console.log('Item is not available in stock');
       return;
     } else if (isInStock(product, formState[product.id])) {
-      console.log('Item added to cart', formState[product.id], variantPrice, stockLeft, sku);
       addToCart(product, formState[product.id], variantPrice, stockLeft, sku);
+      Toast.show({
+        type: 'success',
+        text1: 'Added to cart!',
+      });
     } else {
-      console.log('All available stock are in your cart');
+      Toast.show({
+        type: 'info',
+        text1: 'All available stock are in your cart',
+      });
     }
   };
 
