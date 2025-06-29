@@ -19,6 +19,12 @@ const linking = {
           productId: (id: string) => Number(id),
         },
       },
+      OrderSuccessful: {
+        path: 'demo/store/order-successful/:id',
+        parse: {
+          id: (id: string) => id ?? '1',
+        },
+      },
     },
   },
 };
